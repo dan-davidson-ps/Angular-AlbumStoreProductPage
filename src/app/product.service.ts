@@ -11,12 +11,10 @@ export class ProductService {
     private _http: Http
   ) { }
 
-  getAlbum(id: number) {
+  public getAlbum(id: number) {
     return this._http
       .get(this._albumUrl)
-      .map((response) => {
-        return response.json()
-      })
+      .map((response) => response.json())
   }
 
 }
