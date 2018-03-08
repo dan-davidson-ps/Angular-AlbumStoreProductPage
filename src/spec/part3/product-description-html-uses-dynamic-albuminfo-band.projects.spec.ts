@@ -18,12 +18,13 @@ import { Routes } from '@angular/router';
 
 import { RouterTestingModule } from '@angular/router/testing';
 
-let json = require('../../assets/album.json');
+const json = require('../../assets/album.json');
 
 let productDescriptionComponentExists = false;
 let ProductDescriptionComponent;
 try {
   ProductDescriptionComponent = require('../../app/product-description/product-description.component.ts').ProductDescriptionComponent;
+
   productDescriptionComponentExists = true;
 } catch (e) {
   productDescriptionComponentExists = false;
@@ -95,12 +96,16 @@ describe('ProductDescription', () => {
     let htmlString = ""
     try {
       htmlString = require('../../app/product-description/product-description.component.html');
+      console.log('htmlString: ', htmlString)
+      
     } catch (e) {
     }
     if (htmlString != "") {
       const parser = new DOMParser();
-      const htmlDoc = parser.parseFromString(htmlString, 'text/xml');
+      const htmlDoc = parser.parseFromString(htmlString, 'text/html');
       const re = /{{\s*albumInfo\?\.artist\s*}}/
+      const el = htmlDoc.querySelector('.band-name')
+      console.log('HTML element: ', el)
       since('We\'d like you to query the albumInfo property directly for the artist name, and we\'re not seeing that you\'re doing that.').expect(htmlDoc.querySelector('.band-name').textContent.match(re)).toEqual(jasmine.any(Array));  
     } else {
       since('We\'d like you to query the albumInfo property directly for the artist name, and we\'re not seeing that you\'re doing that.').expect(0).toBe(1);
